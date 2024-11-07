@@ -14,19 +14,28 @@
     }
     #demo {
       margin: var(--ddd-spacing-2);
+      display: block;
     }
     project-1 {
       margin: var(--ddd-spacing-2);
+      padding: var(--ddd-spacing-1);
       border: var(--ddd-border-md);
       border-radius: var(--ddd-radius-lg);
     }
+    #link {
+      width: 256px;
+      border: var(--ddd-border-sm);
+      text-align: center;
+      font-family: var(--ddd-font-primary);
+    }
+    #analyze {
+      width: 128px;
+      border: var(--ddd-border-sm);
+      text-align: center;
+      font-family: var(--ddd-font-primary);
+    }
     project-1:hover {
       box-shadow: var(--ddd-boxShadow-sm);
-    }
-    #example {
-      --project-1-font-size: var(--ddd-font-size-l);
-      background-color: var(--ddd-accent-2);
-      color: var(--ddd-primary-17);
     }
   </style>
   <title>project-1</title>
@@ -35,7 +44,8 @@
 <body>
   <div id="demo">
     <h1>project-1</h1>
-    <project-1></project-1>
+    <input id="link" type="text" placeholder="Place JSON link here"></input>
+    <button id="analyze">Analyze</button>
   </div>
   <script type="module" src="./project-1.js"></script>
 </body>
