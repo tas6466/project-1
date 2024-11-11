@@ -20,30 +20,27 @@ export class HaxCard extends DDDSuper(I18NMixin(LitElement)) {
 
   constructor() {
     super();
-    this.title = "";
-    this.t = this.t || {};
-    this.t = {
-      ...this.t,
-      title: "Title",
-    };
-    this.registerLocalization({
-      context: this,
-      localesPath:
-        new URL("./locales/hax-card.ar.json", import.meta.url).href +
-        "/../",
-      locales: ["ar", "es", "hi", "zh"],
-    });
+    this.title = '';
+    this.description = '';
+    this.logo = '';
+    this.created = '';
+    this.lastUpdated = '';
+    this.slug = 'google.com';
+    this.baseUrl = 'google.com';
   }
 
-  // Lit reactive properties
   static get properties() {
     return {
-      ...super.properties,
       title: { type: String },
+      description: { type: String },
+      logo: { type: String},
+      created: { type: String },
+      lastUpdated: { type: String},
+      slug: { type: String},
+      baseUrl: { type: String }
     };
   }
 
-  // Lit scoped styles
   static get styles() {
     return [super.styles,
     css`
@@ -57,23 +54,36 @@ export class HaxCard extends DDDSuper(I18NMixin(LitElement)) {
         margin: var(--ddd-spacing-2);
         padding: var(--ddd-spacing-4);
       }
-      h3 span {
-        font-size: var(--hax-card-label-font-size, var(--ddd-font-size-s));
-      }
     `];
   }
 
-  // Lit render the HTML
   render() {
+    const createdDate = new Date(parseInt(this.created) * 1000).toLocaleDateString();
+    const updatedDate = new Date(parseInt(this.lastUpdated) * 1000).toLocaleDateString();
+    
+    if (this.logo == '') {
+      this.logo = "/files/HAX.psu%20World%20changer-circle1.png";//This changes the default image for empty strings
+  }
+  
+
     return html`
-    <div class="wrapper">
-      <slot></slot>
-    </div>`;
+      <div
+        class="card"
+        tabindex="0"
+        @click="${this.openSlug}"
+        @keyup="${this.onKeyup}"
+      >
+        <div class="image-container">
+          <img src="${this.baseURL}/${this.logo}" alt="${this.title}" />
+        </div>
+        <div class="info">${this.title}</div>
+        <div class="secondary">${this.description}</div>
+        <div class="metadata">Created: ${createdDate}</div>
+        <div class="metadata">Updated: ${updatedDate}</div>
+      </div>
+    `;
   }
 
-  /**
-   * haxProperties integration via file reference
-   */
   static get haxProperties() {
     return new URL(`./lib/${this.tag}.haxProperties.json`, import.meta.url)
       .href;

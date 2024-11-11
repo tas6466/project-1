@@ -40,42 +40,39 @@ export class HaxAnalyze extends DDDSuper(I18NMixin(LitElement)) {
         background-color: var(--ddd-theme-accent);
         font-family: var(--ddd-font-navigation);
       }
-      .wrapper {
+      .search-wrapper {
         margin: var(--ddd-spacing-2);
-        padding: var(--ddd-spacing-4);
-      }
-      h3 span {
-        font-size: var(--hax-analyze-label-font-size, var(--ddd-font-size-s));
+        padding: var(--ddd-spacing-8);
       }
       #link {
         width: 512px;
         height: 48px;
-        background-color: var(--ddd-theme-default-skyBlue);
+        background-color: var(--ddd-theme-default-white);
         border: var(--ddd-border-lg);
-        border-radius: var(--ddd-radius-sm);
+        border-radius: var(--ddd-radius-lg);
         border-color: var(--ddd-theme-default-beaverBlue);
         font-family: var(--ddd-font-navigation);
         font-size: var(--ddd-font-size-md);
-        color: var(--ddd-theme-default-white);
+        color: var(--ddd-theme-default-beaverBlue);
         text-align: center;
       }
       #link::placeholder {
-        color: var(--ddd-theme-default-limestoneLight);
+        color: var(--ddd-theme-default-limestoneGray);
       }
       #analyze {
         width: 160px;
         height: 48px;
         border: var(--ddd-border-lg);
-        border-radius: var(--ddd-radius-sm);
-        border-color: var(--ddd-theme-default-skyBlue);
-        background-color: var(--ddd-theme-default-beaverBlue);
+        border-radius: var(--ddd-radius-lg);
+        border-color: var(--ddd-theme-default-beaverBlue);
+        background-color: var(--ddd-theme-default-skyBlue);
         font-family: var(--ddd-font-navigation);
         font-size: var(--ddd-font-size-sm);
         color: var(--ddd-theme-default-white);
         cursor: pointer;
       }
       #analyze:hover {
-        box-shadow: var(--ddd-boxShadow-sm);
+        box-shadow: var(--ddd-boxShadow-md);
       }
       #analyze:active {
         background-color: var(--ddd-theme-default-white);
@@ -84,15 +81,14 @@ export class HaxAnalyze extends DDDSuper(I18NMixin(LitElement)) {
     `];
   }
 
-  // Lit render the HTML
   render() {
     if (this.url == ''){this.url = 'https://haxtheweb.org/site.json';}
     else if (!this.url || !this.url.endsWith('/site.json')) {this.url+='/site.json'}
     
     return html`
-      <div class="wrapper">
+      <div class="search-wrapper">
         <input id="link" type="text" placeholder="Enter JSON Link Here" @input="${this._updateUrl}"/>
-        <button id="analyze" @click="${this._analyze}">Analyze</button>
+        <button id="analyze">Analyze</button>
       </div>
       <hax-search .jsonUrl="${this.url}"></hax-search>
     `;
@@ -102,9 +98,6 @@ export class HaxAnalyze extends DDDSuper(I18NMixin(LitElement)) {
     this.url = event.target.value;
   }
 
-  /**
-   * haxProperties integration via file reference
-   */
   static get haxProperties() {
     return new URL(`./lib/${this.tag}.haxProperties.json`, import.meta.url)
       .href;
