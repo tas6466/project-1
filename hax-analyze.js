@@ -7,39 +7,26 @@ import { DDDSuper } from "@haxtheweb/d-d-d/d-d-d.js";
 import { I18NMixin } from "@haxtheweb/i18n-manager/lib/I18NMixin.js";
 
 /**
- * `project-1`
+ * `hax-analyze`
  * 
  * @demo index.html
- * @element project-1
+ * @element hax-analyze
  */
-export class project1 extends DDDSuper(I18NMixin(LitElement)) {
+export class HaxAnalyze extends DDDSuper(I18NMixin(LitElement)) {
 
   static get tag() {
-    return "project-1";
+    return "hax-analyze";
   }
 
   constructor() {
     super();
-    this.title = "";
-    this.t = this.t || {};
-    this.t = {
-      ...this.t,
-      title: "Title",
-    };
-    this.registerLocalization({
-      context: this,
-      localesPath:
-        new URL("./locales/project-1.ar.json", import.meta.url).href +
-        "/../",
-      locales: ["ar", "es", "hi", "zh"],
-    });
+    this.url = 'https://haxtheweb.org/site.json';
   }
 
   // Lit reactive properties
   static get properties() {
     return {
-      ...super.properties,
-      title: { type: String },
+      url: { type: String }
     };
   }
 
@@ -58,7 +45,7 @@ export class project1 extends DDDSuper(I18NMixin(LitElement)) {
         padding: var(--ddd-spacing-4);
       }
       h3 span {
-        font-size: var(--project-1-label-font-size, var(--ddd-font-size-s));
+        font-size: var(--hax-analyze-label-font-size, var(--ddd-font-size-s));
       }
       #link {
         width: 512px;
@@ -99,12 +86,20 @@ export class project1 extends DDDSuper(I18NMixin(LitElement)) {
 
   // Lit render the HTML
   render() {
+    if (this.url == ''){this.url = 'https://haxtheweb.org/site.json';}
+    else if (!this.url || !this.url.endsWith('/site.json')) {this.url+='/site.json'}
+    
     return html`
-    <div class="wrapper">
-      <input id="link" type="text" placeholder="Enter json link here"/>
-      <button id="analyze">Analyze</button>
-      <slot></slot>
-    </div>`;
+      <div class="wrapper">
+        <input id="link" type="text" placeholder="Enter JSON Link Here" @input="${this._updateUrl}"/>
+        <button id="analyze" @click="${this._analyze}">Analyze</button>
+      </div>
+      <hax-search .jsonUrl="${this.url}"></hax-search>
+    `;
+  }
+
+  _updateUrl(event) {
+    this.url = event.target.value;
   }
 
   /**
@@ -116,4 +111,4 @@ export class project1 extends DDDSuper(I18NMixin(LitElement)) {
   }
 }
 
-globalThis.customElements.define(project1.tag, project1);
+globalThis.customElements.define(HaxAnalyze.tag, HaxAnalyze);
