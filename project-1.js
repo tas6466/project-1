@@ -60,6 +60,40 @@ export class project1 extends DDDSuper(I18NMixin(LitElement)) {
       h3 span {
         font-size: var(--project-1-label-font-size, var(--ddd-font-size-s));
       }
+      #link {
+        width: 512px;
+        height: 48px;
+        background-color: var(--ddd-theme-default-skyBlue);
+        border: var(--ddd-border-lg);
+        border-radius: var(--ddd-radius-sm);
+        border-color: var(--ddd-theme-default-beaverBlue);
+        font-family: var(--ddd-font-navigation);
+        font-size: var(--ddd-font-size-md);
+        color: var(--ddd-theme-default-white);
+        text-align: center;
+      }
+      #link::placeholder {
+        color: var(--ddd-theme-default-limestoneLight);
+      }
+      #analyze {
+        width: 160px;
+        height: 48px;
+        border: var(--ddd-border-lg);
+        border-radius: var(--ddd-radius-sm);
+        border-color: var(--ddd-theme-default-skyBlue);
+        background-color: var(--ddd-theme-default-beaverBlue);
+        font-family: var(--ddd-font-navigation);
+        font-size: var(--ddd-font-size-sm);
+        color: var(--ddd-theme-default-white);
+        cursor: pointer;
+      }
+      #analyze:hover {
+        box-shadow: var(--ddd-boxShadow-sm);
+      }
+      #analyze:active {
+        background-color: var(--ddd-theme-default-white);
+        color: var(--ddd-theme-default-beaverBlue);
+      }
     `];
   }
 
@@ -67,6 +101,8 @@ export class project1 extends DDDSuper(I18NMixin(LitElement)) {
   render() {
     return html`
     <div class="wrapper">
+      <input id="link" type="text" placeholder="Enter json link here"/>
+      <button id="analyze">Analyze</button>
       <slot></slot>
     </div>`;
   }
