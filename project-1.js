@@ -115,13 +115,13 @@ export class Project1 extends DDDSuper(I18NMixin(LitElement)) {
           gap: 20px; 
           width: 100%; 
           box-sizing: border-box; 
+          font-family: var(--ddd-font-navigation);
         }
         .card {
           background-color: var(--ddd-theme-default-creekLight);
           border: 4px solid var(--ddd-theme-default-beaverBlue);
           padding: var(--ddd-spacing-5);
           text-align: center;
-          font-family: var(--ddd-font-navigation);
           border-radius: var(--ddd-radius-lg);
         }
         .card:hover {
@@ -166,6 +166,18 @@ export class Project1 extends DDDSuper(I18NMixin(LitElement)) {
           display: inline-block;
           width: 20px; 
           height: 20px;
+        }
+        .link-container {
+          display: inline-block;
+          margin-top: var(--ddd-spacing-2);
+        }
+        .content-link .source-link {
+          display: inline-block; /* Prevents the link from expanding */
+          color: var(--ddd-theme-default-black);
+          text-decoration: underline;
+          padding: 0; /* Reduces clickable area to only text */
+          margin: 0;
+          cursor: pointer;
         }
       `];
   }
@@ -225,15 +237,17 @@ export class Project1 extends DDDSuper(I18NMixin(LitElement)) {
 
     <div class="cards-container">
       ${this.items.map(item => html`
-        <div class="card">
-          <img class="icon" src = "${this.baseUrl}/${this.icon}"/>
-          <h3>${item.title}</h3>
-          <p>${item.description}</p>
-          <p><strong>Last updated:</strong> ${item.metadata.updated || 'N/A'}</p>
-          <p><strong>Slug:</strong> ${item.slug}</p>
-          <a href="${this.baseUrl}/${item.slug}" target="_blank">Open Content</a>
-          <a href="${this.baseUrl}/${item.location}" target="_blank">Open Source</a>
-        </div>
+          <div class="card" @click="${() => window.open(`${this.baseUrl}/${item.slug}`, '_blank')}">
+              <img class="icon" src = "${this.baseUrl}/${this.icon}"/>
+              <h3>${item.title}</h3>
+              <p>${item.description}</p>
+              <p><strong>Last updated:</strong> ${item.metadata.updated || 'N/A'}</p>
+              <p><strong>Slug:</strong> ${item.slug}</p>
+              <div class="link-container" @click="${e => e.stopPropagation()}">
+                <a href="${this.baseUrl}/${item.slug}" target="_blank" class="content-link">Content</a>
+                <a href="${this.baseUrl}/${item.location}" target="_blank" class="source-link">Source</a>
+              </div>
+          </div>
       `)}
     </div>
     `;
