@@ -109,7 +109,7 @@ export class Project1 extends DDDSuper(I18NMixin(LitElement)) {
           max-width: 100px;
           margin-bottom: var(--ddd-spacing-4);
         }
-        .cards-container {
+        .card-container {
           display: grid;
           grid-template-columns: repeat(4, 1fr);;
           gap: 20px; 
@@ -123,23 +123,25 @@ export class Project1 extends DDDSuper(I18NMixin(LitElement)) {
           padding: var(--ddd-spacing-5);
           text-align: center;
           border-radius: var(--ddd-radius-lg);
+          font-family: var(--ddd-font-navigation);
+          cursor: pointer;
         }
         .card:hover {
           box-shadow: var(--ddd-boxShadow-lg);
           background-color: var(--ddd-theme-default-skyBlue);
         }
         @media (max-width: 1024px) {
-          .cards-container {
+          .card-container {
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
           }
         }
         @media (max-width: 768px) {
-          .cards-container {
+          .card-container {
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
           }
         }
         @media (max-width: 480px) {
-          .cards-container {
+          .card-container {
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
           }
         }
@@ -179,7 +181,8 @@ export class Project1 extends DDDSuper(I18NMixin(LitElement)) {
           margin: 0;
           cursor: pointer;
         }
-      `];
+      ` 
+    ];
   }
 
   inputChanged() {
@@ -235,18 +238,18 @@ export class Project1 extends DDDSuper(I18NMixin(LitElement)) {
       ` : ''
     }
 
-    <div class="cards-container">
+    <div class="card-container">
       ${this.items.map(item => html`
           <div class="card" @click="${() => window.open(`${this.baseUrl}/${item.slug}`, '_blank')}">
-              <img class="icon" src = "${this.baseUrl}/${this.icon}"/>
-              <h3>${item.title}</h3>
-              <p>${item.description}</p>
-              <p><strong>Last updated:</strong> ${item.metadata.updated || 'N/A'}</p>
-              <p><strong>Slug:</strong> ${item.slug}</p>
-              <div class="link-container" @click="${e => e.stopPropagation()}">
-                <a href="${this.baseUrl}/${item.slug}" target="_blank" class="content-link">Content</a>
-                <a href="${this.baseUrl}/${item.location}" target="_blank" class="source-link">Source</a>
-              </div>
+            <img class="icon" src = "${this.baseUrl}/${this.icon}"/>
+            <h3>${item.title}</h3>
+            <p>${item.description}</p>
+            <p><strong>Last updated:</strong> ${item.metadata.updated || 'N/A'}</p>
+            <p><strong>Slug:</strong> ${item.slug}</p>
+            <div class="link-container" @click="${e => e.stopPropagation()}">
+              <a href="${this.baseUrl}/${item.slug}" target="_blank" class="content-link">Content</a>
+              <a href="${this.baseUrl}/${item.location}" target="_blank" class="source-link">Source</a>
+            </div>
           </div>
       `)}
     </div>
