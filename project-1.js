@@ -1,6 +1,7 @@
 import { LitElement, html, css } from "lit";
 import { DDDSuper } from "@haxtheweb/d-d-d/d-d-d.js";
 import { I18NMixin } from "@haxtheweb/i18n-manager/lib/I18NMixin.js";
+import '@haxtheweb/simple-icon/simple-icon.js';
 
 export class Project1 extends DDDSuper(I18NMixin(LitElement)) {
 
@@ -20,10 +21,10 @@ export class Project1 extends DDDSuper(I18NMixin(LitElement)) {
     this.hexCode = "";
     this.icon = "";
     this.items = [];
+    this.showOverview = false;
     this.baseUrl = "";
   }
 
-  // Lit reactive properties
   static get properties() {
     return {
       ...super.properties,
@@ -37,28 +38,25 @@ export class Project1 extends DDDSuper(I18NMixin(LitElement)) {
       hexCode: { type: String },
       icon: { type: String },
       items: { type: Array },
+      showOverview: { type: Boolean },
       baseUrl: { type: String }
     };
   }
 
-  // Lit scoped styles
   static get styles() {
     return [super.styles,
       css`
         :host {
           display: block;
-          font-family: Arial, sans-serif;
           margin: var(--ddd-spacing-4);
           padding: var(--ddd-spacing-4);
           border-radius: var(--ddd-radius-md); 
         }
-        
         .input-container {
-          display: flex;
+          display: block;
           justify-content: center;
           margin-bottom: var(--ddd-spacing-5);
         }
-        
         input {
           width: 512px;
           height: 48px;
@@ -74,7 +72,6 @@ export class Project1 extends DDDSuper(I18NMixin(LitElement)) {
         #inputBox::placeholder {
           color: var(--ddd-theme-default-limestoneGray);
         }
-        
         button {
           width: 160px;
           height: 48px;
@@ -95,128 +92,112 @@ export class Project1 extends DDDSuper(I18NMixin(LitElement)) {
           color: var(--ddd-theme-default-beaverBlue);
         }
         .overview {
+          width: 900px;
+          height: 550px;
+          margin: 0 auto;
           text-align: center;
           margin-bottom: var(--ddd-spacing-10);
-          background-color: var(--ddd-theme-default-limestoneGray); 
+          background-color: var(--ddd-theme-default-beaverBlue); 
           padding: var(--ddd-spacing-5);
-          border-radius: 8px;
+          border-radius: var(--ddd-radius-lg);
+          border: 8px solid var(--ddd-theme-default-skyBlue);
           box-shadow: var(--ddd-shadow-sm);
-          color: black;
+          color: var(--ddd-theme-default-white);
+          font-family: var(--ddd-font-navigation);
         }
-        
         .overview img {
           max-width: 100px;
-          margin-bottom: var(--ddd-spacing-5);
+          margin-bottom: var(--ddd-spacing-4);
         }
-        
         .cards-container {
           display: grid;
-          grid-template-columns: repeat(4, 1fr); /*This forces the auto-fit to not go past 4 cards in a row*/
+          grid-template-columns: repeat(4, 1fr);;
           gap: 20px; 
           width: 100%; 
           box-sizing: border-box; 
         }
-  
         .card {
-          background-color: var(--ddd-theme-default-white);
-          border: 1px solid #e1e1e1;
+          background-color: var(--ddd-theme-default-creekLight);
+          border: 4px solid var(--ddd-theme-default-beaverBlue);
           padding: var(--ddd-spacing-5);
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-          text-align: left;
-          border-radius: var(--ddd-radius-sm);
+          text-align: center;
+          font-family: var(--ddd-font-navigation);
+          border-radius: var(--ddd-radius-lg);
         }
-  
-        /*These auto-fit the amount of cards per the size of the screen.*/
+        .card:hover {
+          box-shadow: var(--ddd-boxShadow-lg);
+          background-color: var(--ddd-theme-default-skyBlue);
+        }
         @media (max-width: 1024px) {
           .cards-container {
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Automatically adjust */
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
           }
         }
-  
         @media (max-width: 768px) {
           .cards-container {
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Automatically adjust */
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
           }
         }
-  
         @media (max-width: 480px) {
           .cards-container {
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Automatically adjust */
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
           }
         }
-  
         .card h3 {
           font-size: 18px;
           margin-bottom: var(--ddd-spacing-3);
-          color: #333; 
+          color: var(--ddd-theme-default-black); 
         }
-        
         .card p {
           font-size: 14px;
-          color: #666;
+          color: var(--ddd-theme-default-black);
         }
-        
         .card a {
           font-size: 14px;
-          color: #007BFF; 
+          color: var(--ddd-theme-default-black); 
           text-decoration: underline;
           display: block;
           margin-top: var(--ddd-spacing-3);
         }
-        
         .card a:hover {
-          color: #0056b3; 
+          color: var(--ddd-theme-default-beaverBlue); 
         }
-        
         .icon {
           display: inline-block;
           width: 20px; 
-          height: 20px; 
-          margin-right: 5px; 
+          height: 20px;
         }
       `];
   }
 
-  // Handle input changes and trigger JSON fetch
   inputChanged() {
-    const siteUrl = this.shadowRoot.getElementById('input').value.trim(); // Get value from input
-
+    const siteUrl = this.shadowRoot.getElementById('input').value.trim();
     this.baseUrl = siteUrl.replace('/site.json', '');
     if (siteUrl) {
       this.fetchSiteData(siteUrl);
     } 
-    
     else {
-      alert("Please enter a valid URL."); // Alert if input is empty
+      alert("Please enter a valid URL.");
     }
   }
   
-  //Fetching data from /site.json file 
   async fetchSiteData(siteUrl) {
-
-    // Ensure URL ends with /site.json
     if (siteUrl.endsWith('/site.json')) {
-        fetch(siteUrl)
-        
-        const response = await fetch(siteUrl);
-        const data = await response.json();
-        
-          // Ensure the structure is as expected
-          if (data.metadata) {
-
-              // Accessing metadata properties and setting default values if none are found in /site.json
-              this.name = data.title || "Default Site Name";
-              this.description = data.description || "Default description.";
-              this.logo = data.metadata.site.logo || "project-1/defaultLogo.png";
-              this.theme = data.metadata.theme.element || "Default theme";
-              this.created = data.metadata.site.created || "Not specified";
-              this.lastUpdated = data.metadata.site.updated || "Not specified";
-              this.hexCode = data.metadata.theme.variables.hexCode || "#000000"; 
-              this.icon = data.metadata.icon || "";
-              this.items = data.items || [];
-              
-          }
-      
+      fetch(siteUrl)
+      const response = await fetch(siteUrl);
+      const data = await response.json();
+      if (data.metadata) {
+        this.name = data.title || "Default Site Name";
+        this.description = data.description || "Default description.";
+        this.logo = data.metadata.site.logo || "project-1/defaultLogo.png";
+        this.theme = data.metadata.theme.element || "Default theme";
+        this.created = data.metadata.site.created || "Not specified";
+        this.lastUpdated = data.metadata.site.updated || "Not specified";
+        this.hexCode = data.metadata.theme.variables.hexCode || "#000000"; 
+        this.icon = data.metadata.icon || "";
+        this.showOverview = true;
+        this.items = data.items || [];
+      }
     }
   }
 
@@ -227,36 +208,29 @@ export class Project1 extends DDDSuper(I18NMixin(LitElement)) {
       <button @click="${this.inputChanged}">Analyze</button> 
     </div>
 
-    <!--This is for the top section Overview -->
-    <div class="overview">
-      <h1>Overview</h1>
-      <img src = "${this.baseUrl}/${this.logo}"/>
-      <h2>${this.name}</h2>
-      <p>${this.description}</p>
+    ${this.showOverview ? 
+      html`
+        <div class="overview">
+          <img src = "${this.baseUrl}/${this.logo}"/>
+          <h2>${this.name}</h2>
+          <p>${this.description}</p>
+          <p>Theme: ${this.theme}</p>
+          <p>Created: ${this.created}</p>
+          <p>Last Updated: ${this.lastUpdated}</p>
+          <p>Hex Code: ${this.hexCode}</p>
+          <p>Icon: <img class="icon" src="${this.baseUrl}/${this.icon}"/></p>
+        </div>
+      ` : ''
+    }
 
-      <p><strong>Theme:</strong> ${this.theme}</p>
-      <p><strong>Created:</strong> ${this.created}</p>
-      <p><strong>Last Updated:</strong> ${this.lastUpdated}</p>
-      <p><strong>Hex Code:</strong> ${this.hexCode}</p>
-      <p><strong>Icon:</strong> 
-        <img class="icon" src="${this.baseUrl}/${this.icon}"/>
-      </p>
-    </div>
-
-
-    <!--This is for the indivual cards-->
     <div class="cards-container">
       ${this.items.map(item => html`
-
         <div class="card">
-
           <img class="icon" src = "${this.baseUrl}/${this.icon}"/>
           <h3>${item.title}</h3>
           <p>${item.description}</p>
-
           <p><strong>Last updated:</strong> ${item.metadata.updated || 'N/A'}</p>
           <p><strong>Slug:</strong> ${item.slug}</p>
-
           <a href="${this.baseUrl}/${item.slug}" target="_blank">Open Content</a>
           <a href="${this.baseUrl}/${item.location}" target="_blank">Open Source</a>
         </div>
