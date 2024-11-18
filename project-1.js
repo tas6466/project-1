@@ -50,7 +50,8 @@ export class Project1 extends DDDSuper(I18NMixin(LitElement)) {
           display: block;
           margin: var(--ddd-spacing-4);
           padding: var(--ddd-spacing-4);
-          border-radius: var(--ddd-radius-md); 
+          border-radius: var(--ddd-radius-md);
+          font-family: var(--ddd-font-navigation);
         }
         .input-container {
           display: block;
@@ -70,7 +71,7 @@ export class Project1 extends DDDSuper(I18NMixin(LitElement)) {
           text-align: center;
         }
         #inputBox::placeholder {
-          color: var(--ddd-theme-default-limestoneGray);
+          color: var(--ddd-theme-default-white);
         }
         button {
           width: 160px;
@@ -92,10 +93,12 @@ export class Project1 extends DDDSuper(I18NMixin(LitElement)) {
           color: var(--ddd-theme-default-beaverBlue);
         }
         .overview {
-          width: 900px;
-          height: 550px;
+          width: 850px;
+          height: 460px;
           margin: 0 auto;
           text-align: center;
+          font-family: var(--ddd-font-navigation);
+          font-size: 24px;
           margin-bottom: var(--ddd-spacing-10);
           background-color: var(--ddd-theme-default-beaverBlue); 
           padding: var(--ddd-spacing-5);
@@ -103,11 +106,11 @@ export class Project1 extends DDDSuper(I18NMixin(LitElement)) {
           border: 8px solid var(--ddd-theme-default-skyBlue);
           box-shadow: var(--ddd-shadow-sm);
           color: var(--ddd-theme-default-white);
-          font-family: var(--ddd-font-navigation);
         }
         .overview img {
           max-width: 100px;
-          margin-bottom: var(--ddd-spacing-4);
+          margin-top: var(--ddd-spacing-2);
+          margin-bottom: var(--ddd-spacing-2);
         }
         .card-container {
           display: grid;
@@ -118,8 +121,8 @@ export class Project1 extends DDDSuper(I18NMixin(LitElement)) {
           font-family: var(--ddd-font-navigation);
         }
         .card {
-          background-color: var(--ddd-theme-default-creekLight);
-          border: 4px solid var(--ddd-theme-default-beaverBlue);
+          background-color: var(--ddd-theme-default-beaverBlue);
+          border: 8px solid var(--ddd-theme-default-skyBlue);
           padding: var(--ddd-spacing-5);
           text-align: center;
           border-radius: var(--ddd-radius-lg);
@@ -129,6 +132,7 @@ export class Project1 extends DDDSuper(I18NMixin(LitElement)) {
         .card:hover {
           box-shadow: var(--ddd-boxShadow-lg);
           background-color: var(--ddd-theme-default-skyBlue);
+          border: 8px solid var(--ddd-theme-default-beaverBlue);
         }
         @media (max-width: 1024px) {
           .card-container {
@@ -146,23 +150,25 @@ export class Project1 extends DDDSuper(I18NMixin(LitElement)) {
           }
         }
         .card h3 {
-          font-size: 18px;
-          margin-bottom: var(--ddd-spacing-3);
-          color: var(--ddd-theme-default-black); 
+          font-size: 30px;
+          margin-bottom: var(--ddd-spacing-2);
+          color: var(--ddd-theme-default-white);
+          font-family: var(--ddd-font-navigation);
         }
         .card p {
-          font-size: 14px;
-          color: var(--ddd-theme-default-black);
+          margin: var(--ddd-spacing-6);
+          font-size: 18px;
+          color: var(--ddd-theme-default-white);
         }
         .card a {
-          font-size: 14px;
-          color: var(--ddd-theme-default-black); 
+          font-size: 18px;
+          color: var(--ddd-theme-default-white); 
           text-decoration: underline;
           display: block;
-          margin-top: var(--ddd-spacing-3);
+          margin: var(--ddd-spacing-2);
         }
         .card a:hover {
-          color: var(--ddd-theme-default-beaverBlue); 
+          color: var(--ddd-theme-default-pughBlue); 
         }
         .icon {
           display: inline-block;
@@ -174,11 +180,11 @@ export class Project1 extends DDDSuper(I18NMixin(LitElement)) {
           margin-top: var(--ddd-spacing-2);
         }
         .content-link .source-link {
-          display: inline-block; /* Prevents the link from expanding */
+          display: inline-block;
           color: var(--ddd-theme-default-black);
           text-decoration: underline;
-          padding: 0; /* Reduces clickable area to only text */
-          margin: 0;
+          padding: var(--ddd-spacing-0);
+          margin: var(--ddd-spacing-0);
           cursor: pointer;
         }
       ` 
@@ -192,7 +198,7 @@ export class Project1 extends DDDSuper(I18NMixin(LitElement)) {
       this.fetchSiteData(siteUrl);
     } 
     else {
-      alert("Please enter a valid URL.");
+      alert("Please enter a valid URL");
     }
   }
   
@@ -227,13 +233,11 @@ export class Project1 extends DDDSuper(I18NMixin(LitElement)) {
       html`
         <div class="overview">
           <img src = "${this.baseUrl}/${this.logo}"/>
-          <h2>${this.name}</h2>
-          <p>${this.description}</p>
+          <p>Title: ${this.name}</p>
+          <p>Description: ${this.description}</p>
           <p>Theme: ${this.theme}</p>
           <p>Created: ${this.created}</p>
           <p>Last Updated: ${this.lastUpdated}</p>
-          <p>Hex Code: ${this.hexCode}</p>
-          <p>Icon: <img class="icon" src="${this.baseUrl}/${this.icon}"/></p>
         </div>
       ` : ''
     }

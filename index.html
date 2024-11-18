@@ -14,8 +14,22 @@
       margin: 0;
       padding: 0;
     }
+    body {
+      background-color: var(--ddd-theme-default-pughBlue);
+    }
+    h1 {
+      width: auto;
+      text-align: center;
+      padding: var(--ddd-spacing-8);
+      font-family: var(--ddd-font-navigation);
+      color: var(--ddd-theme-default-white);
+      background-color: var(--ddd-theme-default-beaverBlue);
+    }
+    #title {
+      font-family: var(--ddd-font-navigation);
+    }
     #project {
-      margin: var(--ddd-spacing-2);
+      margin: var(--ddd-spacing-0);
       display: block;
     }
     project-1 {
@@ -28,10 +42,9 @@
   <title>hax-search</title>
 </head>
 
-
 <body>
   <div id="project">
-    <h1>hax-search</h1>
+    <h1 id="title">JSON Analyzer</h1>
     <project-1></project-1>
   </div>
   <script type="module" src="./project-1.js"></script>
